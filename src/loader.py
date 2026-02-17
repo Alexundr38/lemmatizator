@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from normalizer import normalize_word
+from src.normalizer import normalize_word
 
 def load_dict(filename: str) -> dict:
     dict_map = {}
@@ -7,6 +7,7 @@ def load_dict(filename: str) -> dict:
     root = tree.getroot()
     lemmata = root.find('lemmata')
     for lemma in lemmata.findall('lemma'):
+        lemma_id = lemma.get('id')
         element = lemma.find('l')
         if element is None:
             continue
@@ -29,7 +30,7 @@ def load_dict(filename: str) -> dict:
             norm_current_form = normalize_word(current_form)
 
             dict_map.setdefault(norm_current_form, []).append(
-                (norm_lemma_text, map_pos(pos))
+                (norm_lemma_text, map_pos(pos), lemma_id)
             )
     return dict_map
 
