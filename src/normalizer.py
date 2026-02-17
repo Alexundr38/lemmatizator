@@ -1,6 +1,6 @@
 from typing import List
 
-symbols = '.,;:!?'
+symbols = '.,;:!?—_-><'
 
 def normalize_word(word: str) -> str:
     return word.lower().replace('ё', 'е')

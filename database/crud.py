@@ -11,7 +11,7 @@ import Levenshtein
 def lemmatize_verb(word: Lemma, lemma_id: int):
     with get_db() as db:
 
-        for i in range(1, 10):
+        for i in range(0, 10):
             db_word = db.execute(
                 select(Lemma.lemma_id, Lemma.lemma, Lemma.pos).\
                 where(
@@ -19,14 +19,13 @@ def lemmatize_verb(word: Lemma, lemma_id: int):
                     or_(
                         Lemma.lemma.like('%ть'),
                         Lemma.lemma.like('%тся'),
-                        Lemma.lemma.like('%сти')
+                        Lemma.lemma.like('%ти')
                     )
                 ).\
                 group_by(Lemma.lemma_id, Lemma.lemma, Lemma.pos).\
                 limit(1)
             ).one_or_none()
 
-            print(db_word)
             if db_word is None:
                 continue
             else:
